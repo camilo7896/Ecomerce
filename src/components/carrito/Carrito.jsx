@@ -7,9 +7,13 @@ export default function Carrito() {
   {
     /********************************** Contexto Global **********************************/
   }
-  const { allProduct, setAllproduct, total, data, setData,valorFormateado } =
+  const { allProduct, setAllproduct, total,setTotal, data, setData,valorFormateado } =
     useGlobalContext();
   const { name, cel, address } = data;
+
+  const clean =(e)=>{
+    console.log('clean', e)
+  }
 
   const handleName = (e) => {
     setData({
@@ -53,18 +57,16 @@ export default function Carrito() {
 
   const deleteData=()=>{
     let arr =[]
-    setAllproduct(arr)
+    let valueCart=0;
+    setAllproduct(arr);
+    setTotal(0);
     console.log('Borrado')
   }
 
   return (
     <>
       <div  className={Styles.container}>
-      {/* <div className={Styles.containerTotal}>
-          <div className={Styles.total}>
-            {total == 0 ? "" : <h1>Total = $ {total}</h1>}
-          </div>
-        </div> */}
+    
       
         <div className="flex justify-center p-5 ">
           {allProduct == "" ? (
@@ -76,7 +78,9 @@ export default function Carrito() {
           )}
          
         </div>
-        <div className="text-center font-bold"><h2>Total: {valorFormateado}</h2></div>
+        <div className="flex justify-center">
+        <div className={Styles.contTotal}>{allProduct.length==" "?<img className="w-52" src={"https://i.ibb.co/ZK2t4GV/car-1.png"} alt=""/>:<h2>Total: {valorFormateado}</h2>} </div>
+        </div>
         <div className="flex  flex-row justify-center items-center">
         <div className=" ">
           {allProduct == "" ? (
@@ -95,38 +99,17 @@ export default function Carrito() {
         {allProduct==""?"": <button  onClick={deleteData} className="btn btn-outline w-20 m-5 btn-error">Vaciar Carrito</button>}
         </div>
         </div>
+
         {allProduct.map((item) => {
           const valorFormateado = item.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 2 });
+          {}
           return (
-            <div>
-              <div className="overflow-x-auto w-full">
-                <table key={item.id} className="table w-full">
-                  {/* <!-- head --> */}
+            <div className={Styles.containerTable}>
+              <div className={Styles.tabContainer}>
 
-                  <tbody>
-                    {/* <!-- row 1 --> */}
-                    <tr>
-                      <td>
-                        <div className="flex items-center space-x-3">
-                          <div className="avatar">
-                            <div className="mask mask-squircle w-12 h-12">
-                              <img
-                                src={item.image}
-                                alt="Avatar Tailwind CSS Component"
-                                className="w-20"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p>{item.name}</p>
-                      </td>
-                      <td>{valorFormateado}</td>
-                      {/* <td>No.{item.id}</td> */}
-                    </tr>
-                  </tbody>
-                </table>
+              <img className="w-36" src={item.image} alt=""/>
+              <small>{item.name}</small>
+              <strong>{valorFormateado}</strong>
               </div>
             </div>
           );
@@ -134,7 +117,6 @@ export default function Carrito() {
       
       </div>
       <hr />
-    
     </>
   );
 }
